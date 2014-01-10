@@ -1,0 +1,33 @@
+{
+  
+  "name": "gulp-ember",
+  "version": "0.0.0",
+  "description": "A Gulp Ember Builder",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/david-casagrande/gulp-ember.git"
+  },
+  
+  "keywords": [
+    "gulp",
+    "ember"
+  ],
+  
+  "author": "David Casagrande",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/david-casagrande/gulp-ember/issues"
+  },
+  
+  "homepage": "https://github.com/david-casagrande/gulp-ember",
+
+  "devDependencies": {
+    "express": "~3.4.7",
+    "gulp":    "~3.2.2"
+  }
+}
