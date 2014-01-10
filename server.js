@@ -4,6 +4,8 @@ var express = require('express'),
 		reload  = require('reload');
 
 app.use(express.static(__dirname + '/app'));	
+app.use("/dist", express.static(__dirname + '/dist'));	
+app.use("/vendor", express.static(__dirname + '/vendor'));	
 
 server = http.createServer(app);
 
