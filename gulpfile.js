@@ -1,14 +1,16 @@
-var gulp    = require('gulp'),
-		concat  = require('gulp-concat'),
-		jshint  = require('gulp-jshint'),
-		nodemon = require('nodemon');
+var gulp       = require('gulp'),
+		concat     = require('gulp-concat'),
+		jshint     = require('gulp-jshint'),
+    handlebars = require('gulp-handlebars'),
+		nodemon    = require('nodemon');
 
 gulp.task('server', function () {
   gulp.run('compile');
+  gulp.run('compile-templates');
 
   nodemon({
     script: 'server.js',
-    ext: 'js json html',
+    ext: 'js json html handlebars',
     watch: 'app',
   	restartable: 'rs'
   })
@@ -18,6 +20,10 @@ gulp.task('server', function () {
   gulp.watch(['./app/**/*.js',], function(){
   	gulp.run('compile');
   }); 
+
+  gulp.watch(['./app/**/*.handlebars',], function(){
+    gulp.run('compile-templates');
+  });
 
 });
 
@@ -33,3 +39,12 @@ gulp.task('compile', function(){
 		.pipe(gulp.dest('./dist'));
 });
 
+gulp.task('compile-templates', function(){
+  gulp.src(['./app/templates/**/*.handlebars'])
+    .pipe(handlebars({
+      namespace:  'Ember.TEMPLATES',
+      outputType: 'browser'
+     }))
+    .pipe(concat('templates.js'))
+    .pipe(gulp.dest('./dist'));
+});
