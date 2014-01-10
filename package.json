@@ -27,6 +27,7 @@
   "homepage": "https://github.com/david-casagrande/gulp-ember",
 
   "devDependencies": {
+    "bower":       "~1.2.8",
     "express":     "~3.4.7",
     "gulp":        "~3.2.2",
     "gulp-jshint": "git://github.com/wearefractal/gulp-jshint.git",
