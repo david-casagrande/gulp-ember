@@ -28,6 +28,8 @@
 
   "devDependencies": {
     "express": "~3.4.7",
-    "gulp":    "~3.2.2"
+    "gulp":    "~3.2.2",
+    "nodemon": "~1.0.7",
+    "reload":  "~0.1.0"
   }
 }
