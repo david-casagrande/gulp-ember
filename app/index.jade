@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+  head
+    title= 'App Development'
+
+    script(src='/reload/reload.js')
+
+    script(src='vendor/jquery/jquery.js')
+    script(src='vendor/handlebars/handlebars.js')
+    script(src='vendor/ember/ember.js')
+
+  body
+    each javascript in javascripts
+      script(src=javascript)
+    
+    if env !== 'test'
+      script(src='templates.js')
+
+    script(type='text/javascript').
+      window.App.create();
