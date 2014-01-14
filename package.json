@@ -30,17 +30,21 @@
     "bower":                  "~1.2.8",
     "chai":                   "~1.8.1",
     "express":                "~3.4.7",
+    "event-stream":"~3.0.15",
     "grunt":                  "~0.4.2",
     "grunt-ember-handlebars": "~0.7.0",
+    "glob":"~3.2.8",
     "gulp":                   "~3.2.2",
     "gulp-concat":            "~2.1.6",
     "gulp-grunt":             "~0.4.1",
+    "gulp-jade":              "~0.3.0",
     "gulp-jshint":            "git://github.com/wearefractal/gulp-jshint.git",
     "gulp-karma":             "~0.0.1",
+    "gulp-nodemon":           "~0.1.1",
     "gulp-rename":            "~0.2.1",
+    "gulp-uglify":            "~0.1.0",
     "karma-chai":             "~0.0.2",
     "karma-mocha":            "~0.1.1",
-    "nodemon":                "~1.0.7",
     "reload":                 "~0.1.0"
   }
 }
