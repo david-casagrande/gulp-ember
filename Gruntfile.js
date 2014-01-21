@@ -8,6 +8,13 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 
+		concat_sourcemap: {
+	    options: {
+	    	sourcesContent: true
+	    },
+	    'tmp/dev/app.js': ["tmp/transpiled/**/*.js"]
+	  },
+
 		ember_handlebars: {
 		  compile: {
 		    options: {
@@ -20,7 +27,7 @@ module.exports = function(grunt) {
 					}
 		    },
 		    files: {
-		      "./dist/templates.js": ["./app/templates/**/*.handlebars", "./app/templates/partials/*.handlebars"]
+		      "./tmp/dev/templates.js": ["./app/templates/**/*.handlebars", "./app/templates/partials/*.handlebars"]
 		    }
 		  }
 		}
@@ -28,5 +35,6 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-ember-handlebars');
+	grunt.loadNpmTasks('grunt-concat-sourcemap');
 };
 

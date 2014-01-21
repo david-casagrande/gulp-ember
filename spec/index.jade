@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+  head
+    title= 'App Test'
+    
+
+    link(rel="stylesheet" href="/node_modules/mocha/mocha.css")
+    
+    script(src="/node_modules/mocha/mocha.js")
+    script(src="/node_modules/chai/chai.js")
+    
+    script(type='text/javascript').
+      var expect = chai.expect;
+      mocha.setup({
+          ui: 'bdd',
+          ignoreLeaks: false
+      });
+      onload = function () {
+          mocha.run();
+      };
+
+    script(src='/reload/reload.js')
+    script(src='vendor/jquery/jquery.js')
+    script(src='vendor/handlebars/handlebars.js')
+    script(src='vendor/ember/ember.js')
+
+  body
+    #mocha
+
+    each javascript in javascripts
+      script(src=javascript)

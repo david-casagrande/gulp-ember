@@ -3,9 +3,12 @@ var express = require('express'),
 		app     = express(),
 		reload  = require('reload');
 
-app.use("/app", express.static(__dirname + '/app'));	
-app.use(express.static(__dirname + '/dist'));	
+
+app.use(express.static(__dirname + '/tmp/dev'));
+app.use("/app", express.static(__dirname + '/app'));
+app.use("/dist", express.static(__dirname + '/dist'));
 app.use("/vendor", express.static(__dirname + '/vendor'));	
+app.use("/tmp", express.static(__dirname + '/tmp'));
 
 server = http.createServer(app);
 

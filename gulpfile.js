@@ -1,63 +1,23 @@
-var gulp    = require('gulp'),
-		concat  = require('gulp-concat'),
-    jade    = require('gulp-jade'),
-		jshint  = require('gulp-jshint'),
-    glob    = require('glob'),
-    nodemon = require('gulp-nodemon'),
-    rename  = require('gulp-rename'),
-    uglify  = require('gulp-uglify');
+var gulp    = require('gulp');
+//using a grunt plugin until ported to Gulp
+require('gulp-grunt')(gulp);
 
+var concat     = require('gulp-concat'),
+    jade       = require('gulp-jade'),
+		jshint     = require('gulp-jshint'),
+    nodemon    = require('gulp-nodemon'),
+    transpiler = require("gulp-es6-module-transpiler"),
+    uglify     = require('gulp-uglify');
 
 gulp.task('server', function(){
-  nodemon({ script: 'server.js', options: '-e js,html --watch app --watch dist' });
+  gulp.run('source');
+  nodemon({ script: 'server.js', options: '-e js,html --watch tmp' });
 
-  gulp.watch(['app/**/*.js', 'app/index.jade'], function(){
-    gulp.run('html');
-  }); 
-
-  gulp.watch(['app/**/*.handlebars',], function(){
-    gulp.run('compile:templates');
+  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade'], function(){
+    gulp.run('source');
   });
 
 });
-
-
-gulp.task('html', function() {
-
-  glob("app/**/*.js", null, function (er, files) {
-    console.log(files)
-    gulp.src('app/index.jade')
-      .pipe(jade({ data: { javascripts: files, env: 'development' } }))
-      .pipe(gulp.dest('dist/'))
-  });
-
-});
-
-gulp.task('compile:app', function(){
-	gulp.src(['app/**/*.js'])
-		.pipe(concat('app.js'))
-		.pipe(gulp.dest('dist'));
-});
-
-gulp.task('compile:html', function(){
-  gulp.src(['spec/**/*.js'])
-    .pipe(concat('tests.js'))
-    .pipe(gulp.dest('dist'));
-});
-
-gulp.task('compile:tests', function(){
-  gulp.src(['spec/**/*.js'])
-    .pipe(concat('tests.js'))
-    .pipe(gulp.dest('dist'));
-});
-
-gulp.task('minify:app', function(){
-  gulp.src(['dist/app.js', 'dist/templates.js'])
-    .pipe(concat('app.production.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist'));
-});
-
 
 gulp.task('lint', function(){
   gulp.src('app/**/*.js')
@@ -65,9 +25,39 @@ gulp.task('lint', function(){
     .pipe(jshint.reporter('default'));
 });
 
-//using a grunt plugin until ported to Gulp
-require('gulp-grunt')(gulp);
+gulp.task('source', function(){
+  gulp.run('source:transpile', 'source:concat', 'source:minify', 'source:compile_templates', 'source:html');
+});
 
-gulp.task('compile:templates', function() {
+gulp.task('source:transpile', function(){
+  var stream = gulp.src('./app/**/*.js')
+    .pipe(transpiler({ 
+      type: 'amd', 
+      moduleName: function(moduleName, file){
+        return 'gulp/'+file.relative.split('.js')[0];
+      } 
+    }))
+    .pipe(gulp.dest('./tmp/transpiled'));
+    return stream;
+});
+
+gulp.task('source:concat', ['source:transpile'], function() {
+    gulp.run('grunt-concat_sourcemap');
+});
+
+gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile_templates'],function(){
+  gulp.src(['tmp/dev/app.js', 'tmp/dev/templates.js'])
+    .pipe(concat('app.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('tmp/prod'));
+});
+
+gulp.task('source:compile_templates', function() {
     gulp.run('grunt-ember_handlebars');
+});
+
+gulp.task('source:html', function(){
+  gulp.src('app/index.jade')
+    .pipe(jade())
+    .pipe(gulp.dest('tmp/dev'));
 });

@@ -1,4 +1,4 @@
-App.TestController = Em.ObjectController.extend({
+export default Ember.ObjectController.extend({
 	
 	foo: true,
 

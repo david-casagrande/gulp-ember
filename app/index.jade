@@ -1,20 +1,20 @@
 doctype html
-html(lang="en")
+html(lang='en')
   head
     title= 'App Development'
+    
+    if env !== 'prod'
+      script(src='/reload/reload.js')
 
-    script(src='/reload/reload.js')
-
+    script(src='vendor/amd-loadr/loadr.js')
     script(src='vendor/jquery/jquery.js')
     script(src='vendor/handlebars/handlebars.js')
     script(src='vendor/ember/ember.js')
+    script(src='vendor/ember-resolver/dist/ember-resolver.js')
 
-  body
-    each javascript in javascripts
-      script(src=javascript)
-    
-    if env !== 'test'
-      script(src='templates.js')
+  body    
+    script(src='app.js')
+    script(src='templates.js')
 
     script(type='text/javascript').
-      window.App.create();
+      window.App = require('gulp/app')['default'].create();
