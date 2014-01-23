@@ -58,6 +58,10 @@ gulp.task('source:compile_templates', function() {
 
 gulp.task('source:html', function(){
   gulp.src('app/index.jade')
-    .pipe(jade())
+    .pipe(jade({ data: { env: 'dev' } }))
     .pipe(gulp.dest('tmp/dev'));
+
+  gulp.src('app/index.jade')
+    .pipe(jade({ data: { env: 'production' } }))
+    .pipe(gulp.dest('tmp/prod'));  
 });

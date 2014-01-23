@@ -3,7 +3,7 @@ html(lang='en')
   head
     title= 'App Development'
     
-    if env !== 'prod'
+    if env === 'dev'
       script(src='/reload/reload.js')
 
     script(src='vendor/amd-loadr/loadr.js')
@@ -12,9 +12,35 @@ html(lang='en')
     script(src='vendor/ember/ember.js')
     script(src='vendor/ember-resolver/dist/ember-resolver.js')
 
-  body    
-    script(src='app.js')
-    script(src='templates.js')
+  body
+
+    if env === 'dev'
+      script(src='app.js')
+      script(src='templates.js')
+
+    if env === 'production'
+      script(src='app.min.js')
 
     script(type='text/javascript').
       window.App = require('gulp/app')['default'].create();
+
+    video(autoplay)
+
+    script(type='text/javascript').
+      var errorCallback = function(e) {
+        console.log('Reeeejected!', e);
+      };
+
+      // Not showing vendor prefixes.
+      navigator.webkitGetUserMedia({video: true, audio: true}, function(localMediaStream) {
+        var video = document.querySelector('video');
+        video.src = window.URL.createObjectURL(localMediaStream);
+
+        MSTREAM = localMediaStream;
+
+        // Note: onloadedmetadata doesn't fire in Chrome when using it with getUserMedia.
+        // See crbug.com/110938.
+        video.onloadedmetadata = function(e) {
+          // Ready to go. Do some stuff.
+        };
+      }, errorCallback);
