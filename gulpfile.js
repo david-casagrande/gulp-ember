@@ -5,7 +5,9 @@ require('gulp-grunt')(gulp);
 var concat     = require('gulp-concat'),
     jade       = require('gulp-jade'),
 		jshint     = require('gulp-jshint'),
+    handlebars = require('gulp-ember-handlebars'),
     nodemon    = require('gulp-nodemon'),
+    preprocess = require('gulp-processhtml'),
     transpiler = require("gulp-es6-module-transpiler"),
     uglify     = require('gulp-uglify');
 
@@ -13,7 +15,7 @@ gulp.task('server', function(){
   gulp.run('source');
   nodemon({ script: 'server.js', options: '-e js,html --watch tmp' });
 
-  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade'], function(){
+  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html'], function(){
     gulp.run('source');
   });
 
@@ -53,10 +55,21 @@ gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile
 });
 
 gulp.task('source:compile_templates', function() {
-    gulp.run('grunt-ember_handlebars');
+  //gulp.run('grunt-ember_handlebars');
+  gulp.src('app/templates/**/*.handlebars')
+    .pipe(handlebars({ outputType: 'browser'}))
+    .pipe(concat('temps.js'))
+    .pipe(gulp.dest('tmp/dev/'));
+
 });
 
 gulp.task('source:html', function(){
+  gulp.src('app/index.html')
+    .pipe(preprocess('index.html'))
+    .pipe(gulp.dest('tmp/dev'));
+});
+
+gulp.task('source:jade', function(){
   gulp.src('app/index.jade')
     .pipe(jade({ data: { env: 'dev' } }))
     .pipe(gulp.dest('tmp/dev'));
