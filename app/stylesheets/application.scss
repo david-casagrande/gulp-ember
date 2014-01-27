@@ -1,0 +1,54 @@
+$content-left-nav-width: 300px;
+
+.window-top-margin {
+	position: relative;
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+#content {
+}
+
+.content-left-nav {
+	position: fixed;
+	z-index: 9;
+	width: $content-left-nav-width;
+	height: 100%;
+	background: #f7f7f7;
+	overflow-y:auto;
+	.margin {
+		@extend .window-top-margin;
+	}
+
+}
+
+.content-body {
+	position: fixed;
+	z-index: 8;
+	width: 100%;
+	height: 100%;
+	overflow-y:auto;
+	.margin {
+		@extend .window-top-margin;
+		margin-left: $content-left-nav-width + 16px;
+	}
+	.top-padding {
+		padding-top: 2em;
+	}
+}
+
+#release-expenses {
+	table {
+		width: 100%;
+	}
+	input {
+		margin-bottom: 0;
+	}
+}
+
+/*
+input[type="text"] {
+	font-size: 2em;
+	height: auto;
+}
+*/

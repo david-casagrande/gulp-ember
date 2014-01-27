@@ -7,13 +7,15 @@ var concat     = require('gulp-concat'),
 		jshint     = require('gulp-jshint'),
     handlebars = require('gulp-ember-handlebars'),
     nodemon    = require('gulp-nodemon'),
+    path       = require('path'),
     preprocess = require('gulp-processhtml'),
+    sass       = require('gulp-sass'),
     transpiler = require("gulp-es6-module-transpiler"),
     uglify     = require('gulp-uglify');
 
 gulp.task('server', function(){
   gulp.run('source');
-  nodemon({ script: 'server.js', options: '-e js,html --watch tmp' });
+  nodemon({ script: 'server-proxy.js', options: '-e js,html --watch tmp' });
 
   gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html'], function(){
     gulp.run('source');
@@ -28,7 +30,7 @@ gulp.task('lint', function(){
 });
 
 gulp.task('source', function(){
-  gulp.run('source:transpile', 'source:concat', 'source:minify', 'source:compile_templates', 'source:html');
+  gulp.run('source:transpile', 'source:concat', 'source:css', 'source:minify', 'source:compile_templates', 'source:html');
 });
 
 gulp.task('source:transpile', function(){
@@ -44,7 +46,14 @@ gulp.task('source:transpile', function(){
 });
 
 gulp.task('source:concat', ['source:transpile'], function() {
-    gulp.run('grunt-concat_sourcemap');
+  gulp.run('grunt-concat_sourcemap');
+});
+
+gulp.task('source:css', function() {
+  gulp.src('app/stylesheets/**/*scss')
+    .pipe(sass())
+    .pipe(concat('app.css'))
+    .pipe(gulp.dest('./tmp/dev'))
 });
 
 gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile_templates'],function(){
@@ -55,12 +64,19 @@ gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile
 });
 
 gulp.task('source:compile_templates', function() {
-  //gulp.run('grunt-ember_handlebars');
   gulp.src('app/templates/**/*.handlebars')
-    .pipe(handlebars({ outputType: 'browser'}))
-    .pipe(concat('temps.js'))
+    .pipe(handlebars({ 
+      outputType: 'amd',
+      /*namespace: 'gulp',
+      processName: function(name){
+        name = name.split('templates/')[1];
+        ext  = path.extname(name);
+        console.log(name.split(ext)[0])
+        return name.split(ext)[0];
+      } */
+    }))
+    .pipe(concat('templates.js'))
     .pipe(gulp.dest('tmp/dev/'));
-
 });
 
 gulp.task('source:html', function(){

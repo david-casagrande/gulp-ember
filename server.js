@@ -1,8 +1,9 @@
 var express = require('express'),
-		http    = require('http')
+		http    = require('http'),
 		app     = express(),
 		reload  = require('reload');
 
+//console.log()
 app.use(express.static(__dirname + '/tmp/dev'));
 app.use("/vendor", express.static(__dirname + '/vendor'));	
 

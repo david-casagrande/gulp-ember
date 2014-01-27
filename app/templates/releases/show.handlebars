@@ -1,0 +1,42 @@
+{{input type='text' value=name record=content}}
+{{input type='text' value=catalogueNumber record=content}}
+
+<a href="#" class="button small" {{action 'saveRelease' this}}>Update Release</a>
+<a href="#" class="button small alert" {{action 'deleteRelease' this}}>Delete</a>
+
+<div id="release-expenses" class="panel">
+	<h4>Expenses</h4>
+	<table>
+		<thead>
+			<th>Description</th>
+			<th colspan="2">Cost</th>
+		</thead>
+		<tbody>
+			{{#each expenses}}
+				{{#view 'expense'}}
+					<td>{{input type='text' value=description record=this}} {{view}}</td>
+					<td width="200">{{input type='text' value=cost record=this}}</td>
+					<td width="20"><a href="#" {{action 'deleteExpense' this target='view'}}>&times;</a></td>
+				{{/view}}
+			{{else}}
+				<tr>
+					<td colspan="3">No expenses have been entered for {{controller.catalogueNumber}} yet</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+	<a href="#" class="button tiny" {{action 'addExpense' this}}>Add Release</a>
+</div>
+
+<div class="large-6 columns">
+	{{newExpenseCost.isValid}}
+	{{input type='text' value=newExpenseDescription placeholder='Expense Description'}}
+</div>
+
+<div class="large-3 columns">
+	{{input type='text' value=newExpenseCost placeholder='Cost'}}
+</div>
+
+<div class="large-3 columns">
+	<a href="#" class="button small" {{action 'createNewExpense'}}>Add Expense</a>
+</div>

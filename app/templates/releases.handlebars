@@ -1,0 +1,17 @@
+<div>
+	{{#each}}
+		{{#unless isNew}}
+			<div class="panel">
+				<p>
+					{{#link-to 'releases.show' this}}{{name}}{{/link-to}} by {{artist.name}} <br />
+				</p>
+			</div>
+		{{/unless}}
+	{{/each}}
+
+	{{#link-to 'releases.new' classNames="button small"}}Add Release{{/link-to}}
+</div>
+
+<div>
+	{{outlet}}
+</div>

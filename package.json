@@ -31,7 +31,6 @@
     "chai":                       "~1.8.1",
     "express":                    "~3.4.7",
     "grunt":                      "~0.4.2",
-    "grunt-ember-handlebars":     "~0.7.0",
     "grunt-concat-sourcemap":     "~0.4.0",
     "gulp":                       "~3.2.2",
     "gulp-concat":                "~2.1.6",
@@ -43,9 +42,13 @@
     "gulp-karma":                 "~0.0.1",
     "gulp-nodemon":               "~0.1.1",
     "gulp-processhtml":           "~0.0.1",
+    "gulp-sass":                  "~0.6.0",
     "gulp-uglify":                "~0.1.0",
+    "http-proxy":                 "~0.8.0",
     "karma-chai":                 "~0.0.2",
     "karma-mocha":                "~0.1.1",
+    "path":                       "~0.4.9",
+    "request":                    "~2.33.0",
     "reload":                     "~0.1.0"
   }
 }
