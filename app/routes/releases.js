@@ -1,5 +1,7 @@
-export default = Ember.Route.extend({
-	/*
+import CRUD from 'gulp/mixins/route_crud';
+
+export default Ember.Route.extend(CRUD, {
+	
 	actions: {
 
 		saveRelease: function(record){
@@ -15,13 +17,9 @@ export default = Ember.Route.extend({
 		}	
 	
 	},
-	*/
+	
 	model: function(){
 		return this.get('store').find('release');
-	},
-/*
-	setupController: function(controller, model){
-		this._super();	
 	}
-*/
+
 });

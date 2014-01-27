@@ -1,1 +1,1 @@
-export default = DS.ActiveModelSerializer.extend();
+export default DS.ActiveModelSerializer.extend();

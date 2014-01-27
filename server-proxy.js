@@ -10,15 +10,13 @@ app.configure(function() {
 });
 
 app.all('/api/*', function(req, res, next){
-	console.log(req.url)
   var domain  = 'http://localhost:3000',
   		url     = req.url.split('?'),
   		path    = url[0],
   		query   = url[1] ? '?' + url[1] : '',
-  		newurl  = domain + path + '.json' + query;	  
-	console.log(newurl)
+  		newurl  = domain + path + query;	  
 
-  request(newurl).pipe(res);
+  request({uri: newurl, json: true}).pipe(res);
 });
 
 app.use(express.static(__dirname + '/tmp/dev'));

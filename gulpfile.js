@@ -5,7 +5,7 @@ require('gulp-grunt')(gulp);
 var concat     = require('gulp-concat'),
     jade       = require('gulp-jade'),
 		jshint     = require('gulp-jshint'),
-    handlebars = require('gulp-ember-handlebars'),
+    handlebars = require('../../ember/gulp-ember-handlebars'),
     nodemon    = require('gulp-nodemon'),
     path       = require('path'),
     preprocess = require('gulp-processhtml'),
@@ -17,7 +17,7 @@ gulp.task('server', function(){
   gulp.run('source');
   nodemon({ script: 'server-proxy.js', options: '-e js,html --watch tmp' });
 
-  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html'], function(){
+  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html', 'app/stylesheets/**/*.scss'], function(){
     gulp.run('source');
   });
 
@@ -63,17 +63,16 @@ gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile
     .pipe(gulp.dest('tmp/prod'));
 });
 
+gulp.task('source:comp', function(){
+  gulp.run('grunt-emberTemplates');
+});
+
 gulp.task('source:compile_templates', function() {
+  
   gulp.src('app/templates/**/*.handlebars')
     .pipe(handlebars({ 
-      outputType: 'amd',
-      /*namespace: 'gulp',
-      processName: function(name){
-        name = name.split('templates/')[1];
-        ext  = path.extname(name);
-        console.log(name.split(ext)[0])
-        return name.split(ext)[0];
-      } */
+      outputType:   'amd',
+      modulePrefix: 'gulp'
     }))
     .pipe(concat('templates.js'))
     .pipe(gulp.dest('tmp/dev/'));

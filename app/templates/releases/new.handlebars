@@ -1,0 +1,34 @@
+<form>
+
+  <div class="row collapse">
+    <div class="large-12 columns">
+      <label for="name">Release Title</label>
+      {{input type='text' name='name' placeholder='Enter Release Title' value=name}}
+    </div>
+  </div>
+
+  <div class="row collapse">
+    <label for="catalogue_number">Catalogue Number</label>
+    <div class="small-3 large-2 columns">
+      <span class="prefix">CER</span>
+    </div>
+    <div class="small-9 large-10 columns">
+      {{input type='text' name='catalogue_number' placeholder='Enter Catalogue Number' value=catalogueNumber}}
+    </div>
+  </div>
+
+  <div class="row collapse">
+    <div class="large-12 columns">
+      <label for='artist'>Select Artist</label>
+      {{view Ember.Select name='artist' content=availableArtists 
+             optionLabelPath='content.name' value=artist prompt='Select Artist'}}
+    </div>
+  </div>
+
+</form>
+
+<div class="row collapse">
+  <div class="12-large columns">
+    <a href="#" class="button small" {{action 'saveRelease' this}}>Create Release</a>
+  </div>
+</div>

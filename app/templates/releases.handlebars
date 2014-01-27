@@ -1,4 +1,5 @@
-<div>
+{{#left-nav title='Releases'}}
+
 	{{#each}}
 		{{#unless isNew}}
 			<div class="panel">
@@ -10,8 +11,9 @@
 	{{/each}}
 
 	{{#link-to 'releases.new' classNames="button small"}}Add Release{{/link-to}}
-</div>
 
-<div>
+{{/left-nav}}
+
+{{#content-body}}
 	{{outlet}}
-</div>
+{{/content-body}}
