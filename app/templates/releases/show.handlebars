@@ -25,18 +25,17 @@
 			{{/each}}
 		</tbody>
 	</table>
-	<a href="#" class="button tiny" {{action 'addExpense' this}}>Add Release</a>
 </div>
 
 <div class="large-6 columns">
-	{{newExpenseCost.isValid}}
-	{{input type='text' value=newExpenseDescription placeholder='Expense Description'}}
+	{{input type='text' value=newExpense.description placeholder='Expense Description'}}
 </div>
 
 <div class="large-3 columns">
-	{{input type='text' value=newExpenseCost placeholder='Cost'}}
+	{{newExpense.cost}}
+	{{input type='text' value=newExpense.cost placeholder='Cost'}}
 </div>
 
 <div class="large-3 columns">
-	<a href="#" class="button small" {{action 'createNewExpense'}}>Add Expense</a>
+	<a href="#" class="button small" {{action 'saveExpense'}}>Add Expense</a>
 </div>

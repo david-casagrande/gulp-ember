@@ -1,0 +1,16 @@
+{{input type='text' value=name}}
+{{textarea value=description}}
+
+{{#if releases}}
+	<div class="panel">
+		<h4>Releases</h4>
+		<ul class="side-nav">
+			{{#each releases}}
+				<li>{{#link-to 'releases.show' this}}{{name}}{{/link-to}}</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}
+
+<a href="#" class="button small" {{action 'saveArtist' this}}>Save</a>
+<a href="#" class="button small alert" {{action 'deleteArtist' this}}>Delete</a>

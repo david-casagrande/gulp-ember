@@ -15,7 +15,7 @@ var concat     = require('gulp-concat'),
 
 gulp.task('server', function(){
   gulp.run('source');
-  nodemon({ script: 'server-proxy.js', options: '-e js,html --watch tmp' });
+  nodemon({ script: 'server.js', options: '-e js,html --watch tmp' });
 
   gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html', 'app/stylesheets/**/*.scss'], function(){
     gulp.run('source');

@@ -1,6 +1,6 @@
 import Resolver from 'resolver';
 
-var App = Ember.Application.extend({
+export default Ember.Application.extend({
   LOG_ACTIVE_GENERATION:    true,
   LOG_MODULE_RESOLVER:      true,
   LOG_TRANSITIONS:          true,
@@ -9,7 +9,3 @@ var App = Ember.Application.extend({
   modulePrefix:             'gulp', // TODO: loaded via config
   Resolver:                 Resolver['default']
 });
-
-console.log('so good and it kind of points correctly');
-
-export default App;

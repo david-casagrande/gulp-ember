@@ -1,0 +1,23 @@
+<form>
+
+  <div class="clearfix">
+    <div class="large-12 columns">
+      <label for="name">Artist Name</label>
+      {{input type='text' name='name' placeholder='Enter Artist Name' value=name}}
+    </div>
+  </div>
+
+  <div class="clearfix">
+    <div class="large-12 columns">
+      <label for="description">Artist Description</label>
+      {{textarea name='description' placeholder='Enter Artist Description' value=description}}
+    </div>
+  </div>
+
+</form>
+
+<div class="clearfix">
+  <div class="12-large columns">
+    <a href="#" class="button small" {{action 'saveArtist' this}}>Save Artist</a>
+  </div>
+</div>
