@@ -16,7 +16,10 @@ export default Ember.View.extend({
 		
 		expense.deleteRecord();
 		expense.save().then(function(){
-			self.get('controller.expenses').removeObject(expense);
+			var expenses = self.get('controller.model.expenses');
+			if(expenses){
+				expenses.removeObject(expense);
+			}
 		});
 
 	}

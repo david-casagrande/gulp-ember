@@ -20,23 +20,19 @@
 		<script type="text/javascript" src="app.js"></script>
 		<script type="text/javascript" src="templates.js"></script>
 		<script type="text/javascript">
+			
 			DS.DebugAdapter.reopen({
 			  getModelTypes: function() {
 			    var self = this;
-			    console.log(requirejs);
-			    
-			    /*
 			    return Ember.keys(requirejs._eak_seen).filter(function(key) {
-			      return !!key.match(/^gulp\/models\//) && self.detect(require(key));
+			      return !!key.match(/^gulp\/models\//) && self.detect(require(key).default);
 			    }).map(function(key){
-			      var type = require(key), typeKey = key.match(/^gulp\/models\/(.*)/)[1];
+			      var type = require(key).default, typeKey = key.match(/^gulp\/models\/(.*)/)[1];
 			      type.toString = function() { return typeKey; };
 			      return type;
 			    });
-					*/
 			  }
 			});
-
 			window.App = require('gulp/app')['default'].create();
 		</script>
 

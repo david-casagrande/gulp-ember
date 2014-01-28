@@ -32,10 +32,9 @@
 </div>
 
 <div class="large-3 columns">
-	{{newExpense.cost}}
 	{{input type='text' value=newExpense.cost placeholder='Cost'}}
 </div>
 
 <div class="large-3 columns">
-	<a href="#" class="button small" {{action 'saveExpense'}}>Add Expense</a>
+	<a href="#" class="button small" {{action 'saveExpense' newExpense}}>Add Expense</a>
 </div>

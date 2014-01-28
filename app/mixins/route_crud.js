@@ -11,19 +11,14 @@ export default Ember.Mixin.create({
 			});
 	},
 
-	saveRecordSuccess: function(record, route, callback){
+	saveRecordSuccess: function(record, route){
 		if(route) {
 			this.transitionTo(route, record);
-		}
-		if(callback){
-			callback();
 		}
 	},
 
 	saveRecordError: function(errors, record, route){
-			console.log(record.get('cost'), record.get('description'))
-
-		//record.rollback();
+		record.rollback();
 		alert(errors.message);
 	},	
 
