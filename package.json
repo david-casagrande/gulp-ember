@@ -29,7 +29,9 @@
   "devDependencies": {
     "bower":                      "~1.2.8",
     "chai":                       "~1.8.1",
+    "ejs":                        "~0.8.5",
     "express":                    "~3.4.7",
+    "fileset":                    "~0.1.5",
     "grunt":                      "~0.4.2",
     "grunt-concat-sourcemap":     "~0.4.0",
     "gulp":                       "~3.2.2",
@@ -37,18 +39,16 @@
     "gulp-ember-handlebars":      "git://github.com/david-casagrande/gulp-ember-handlebars.git",
     "gulp-es6-module-transpiler": "~0.1.0",
     "gulp-grunt":                 "~0.4.1",
-    "gulp-jade":                  "~0.3.0",
     "gulp-jshint":                "git://github.com/wearefractal/gulp-jshint.git",
     "gulp-karma":                 "~0.0.1",
-    "gulp-nodemon":               "~0.1.1",
     "gulp-processhtml":           "~0.0.1",
     "gulp-sass":                  "~0.6.0",
     "gulp-uglify":                "~0.1.0",
-    "http-proxy":                 "~0.8.0",
     "karma-chai":                 "~0.0.2",
     "karma-mocha":                "~0.1.1",
+    "nodemon":                    "~1.0.14",
     "path":                       "~0.4.9",
-    "request":                    "~2.33.0",
-    "reload":                     "~0.1.0"
+    "reload":                     "~0.1.0",
+    "request":                    "~2.33.0"
   }
 }

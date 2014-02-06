@@ -3,10 +3,9 @@ var gulp    = require('gulp');
 require('gulp-grunt')(gulp);
 
 var concat     = require('gulp-concat'),
-    jade       = require('gulp-jade'),
 		jshint     = require('gulp-jshint'),
-    handlebars = require('../../ember/gulp-ember-handlebars'),
-    nodemon    = require('gulp-nodemon'),
+    handlebars = require('gulp-ember-handlebars'),
+    nodemon    = require('nodemon'),
     path       = require('path'),
     preprocess = require('gulp-processhtml'),
     sass       = require('gulp-sass'),
@@ -15,9 +14,19 @@ var concat     = require('gulp-concat'),
 
 gulp.task('server', function(){
   gulp.run('source');
-  nodemon({ script: 'server.js', options: '-e js,html --watch tmp' });
 
-  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.jade', 'app/*.html', 'app/stylesheets/**/*.scss'], function(){
+  var port = gulp.env.port || 8000,
+      env  = gulp.env.production ? 'production' : 'development';
+
+  nodemon({
+    'script': 'server.js',
+    'env': {
+      'PORT':     port,
+      'NODE_ENV': env
+    }
+  });
+
+  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.html', 'app/stylesheets/**/*.scss'], function(){
     gulp.run('source');
   });
 
@@ -84,12 +93,42 @@ gulp.task('source:html', function(){
     .pipe(gulp.dest('tmp/dev'));
 });
 
-gulp.task('source:jade', function(){
-  gulp.src('app/index.jade')
-    .pipe(jade({ data: { env: 'dev' } }))
-    .pipe(gulp.dest('tmp/dev'));
+gulp.task('test:server', function(){
+  gulp.run('source');
+  gulp.run('test:transpile', 'test:concat');
 
-  gulp.src('app/index.jade')
-    .pipe(jade({ data: { env: 'production' } }))
-    .pipe(gulp.dest('tmp/prod'));  
+  var port = gulp.env.port || 8000,
+      env  = gulp.env.production ? 'production' : 'development';
+
+  nodemon({
+    'script': 'server-test.js',
+    'env': {
+      'PORT':     port,
+      'NODE_ENV': env
+    }
+  });
+
+  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.html', 'app/stylesheets/**/*.scss', 'spec/**/*.js', 'spec/index.html'], function(){
+    gulp.run('source');
+    gulp.run('test:transpile', 'test:concat');
+  });
+
+});
+
+gulp.task('test:transpile', function(){
+  var stream = gulp.src('./spec/**/*.js')
+    .pipe(transpiler({ 
+      type: 'amd', 
+      moduleName: function(moduleName, file){
+        return 'gulp/'+file.relative.split('.js')[0];
+      } 
+    }))
+    .pipe(gulp.dest('./tmp/spec/transpiled'));
+  return stream;
+});
+
+gulp.task('test:concat', ['test:transpile'], function(){
+  gulp.src('./tmp/spec/transpiled/**/*.js')
+    .pipe(concat('test.js'))
+    .pipe(gulp.dest('./tmp/spec'));
 });

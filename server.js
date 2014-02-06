@@ -31,7 +31,8 @@ app.use("/vendor", express.static(__dirname + '/vendor'));
 
 var server = http.createServer(app);
 reload(server, app);
- 
-server.listen(8000, function(){
-	console.log('Server is now running on port 8000')
+
+var port = Number(process.env.PORT || 8000);
+server.listen(port, function(){
+	console.log('Server is now running on port ' + port);
 });
