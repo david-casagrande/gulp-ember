@@ -15,7 +15,7 @@
             ui: 'bdd',
             ignoreLeaks: true
         });
-
+        mocha.checkLeaks();
         onload = function () {
             mocha.run();
         };
@@ -26,12 +26,19 @@
         <script type="text/javascript" src="vendor/ember/ember.js"></script>
         <script type="text/javascript" src="vendor/ember-data/ember-data.js"></script>
         <script type="text/javascript" src="vendor/ember-resolver/dist/ember-resolver.js"></script>
+        <script type="text/javascript" src="vendor/faker/dist/faker.js"></script>
 
         <script type="text/javascript" src="app/app.js"></script>
         <script type="text/javascript" src="test.js"></script>
         <script type="text/javascript">
-            <% for(var x = 0; x < fileList.length; x++) { %>
-                require('<%= fileList[x] %>');
+            <% if(fileList.length > 0) { %>
+                <% for(var x = 0; x < fileList.length; x++) { %>
+                    require('<%= fileList[x] %>');
+                <% } %>
+            <% } else { %>
+                describe('No tests on this path', function(){
+                    it('where have all the js tests goooooone.');
+                });
             <% } %>
         </script>
     </body>

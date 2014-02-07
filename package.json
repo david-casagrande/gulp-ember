@@ -31,6 +31,7 @@
     "chai":                       "~1.8.1",
     "ejs":                        "~0.8.5",
     "express":                    "~3.4.7",
+    "fabrication":                "~0.1.0",
     "fileset":                    "~0.1.5",
     "grunt":                      "~0.4.2",
     "grunt-concat-sourcemap":     "~0.4.0",

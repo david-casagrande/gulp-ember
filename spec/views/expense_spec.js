@@ -1,4 +1,5 @@
 import view from 'gulp/views/expense';
+import artist from 'gulp/fixtures/artist';
 
 export default describe('ExpenseView', function(){
 	
@@ -12,7 +13,8 @@ export default describe('ExpenseView', function(){
 
 	describe('foo', function(){
 		it('is alive', function(){
-			expect(view.get('tagName')).to.equal('tr');
+			console.log(artist(), artist());
+			expect(artist()).to.not.eql(artist({id: 2}));
 		});
 	});
 
