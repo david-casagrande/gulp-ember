@@ -1,2 +1,5 @@
 {{partial 'partials/top_bar'}}
 <div id="content">{{outlet}}</div>
+
+<div id="modal" class="reveal-modal">{{outlet 'modal'}}</div>
+<div id="modal-bg" class="reveal-modal-bg" {{action 'transitionFromModal'}}></div>

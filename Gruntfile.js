@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 	    options: {
 	    	sourcesContent: true
 	    },
-	    'tmp/dev/app.js': ["tmp/transpiled/**/*.js"]
+	    'tmp/assets/app.js': ["tmp/transpiled/**/*.js"]
 	  }
 
 	});

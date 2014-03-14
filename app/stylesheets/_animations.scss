@@ -1,0 +1,31 @@
+//for calling animations, takes the name of the keyframe
+@mixin animation($directive) {
+  -webkit-animation: $directive; /* Safari 4+ */
+  -moz-animation:    $directive; /* Fx 5+ */
+  -o-animation:      $directive; /* Opera 12+ */
+  animation:         $directive; /* IE 10+ */
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+      @content;
+  }
+  @-moz-keyframes #{$name} {
+      @content;
+  }
+  @-ms-keyframes #{$name} {
+      @content;
+  }
+  @keyframes #{$name} {
+      @content;
+  }
+}
+
+@include keyframes(fadein) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

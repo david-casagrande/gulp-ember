@@ -1,3 +1,4 @@
 export default Ember.ObjectController.extend({
-	newExpense: {},
+	modalReady: false,
+	modalCancelRoute: null
 });

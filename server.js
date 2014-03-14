@@ -10,6 +10,7 @@ app.configure(function(){
   app.use(express.errorHandler());
 });
 
+/*
 app.all('/api/*', function(req, res, next){
   var domain  = 'http://localhost:3000',
       url     = req.url.split('?'),
@@ -25,9 +26,11 @@ app.all('/api/*', function(req, res, next){
 
   request(reqProxy).pipe(res);
 });
+*/
 
-app.use(express.static(__dirname + '/tmp/dev'));
+app.use(express.static(__dirname + '/public'));
 app.use("/vendor", express.static(__dirname + '/vendor'));
+app.use("/assets", express.static(__dirname + '/tmp/assets'));
 
 var server = http.createServer(app);
 reload(server, app);

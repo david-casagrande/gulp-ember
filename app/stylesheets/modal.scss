@@ -1,0 +1,56 @@
+@import './animations';
+
+#modal {
+	position: absolute;
+	z-index: 4;
+	//opacity: 0;
+	//@include animation(modal-fadeout 1s);
+
+	&.animating {
+		display: block;
+		visibility: visible;
+	}
+
+	&.show {
+		display: block;
+		visibility: visible;
+	  //opacity: .75;
+		//@include animation(modal-fadein 1s);
+	}
+}
+
+#modal-bg {
+	z-index: 3;
+	opacity: 0;
+	display: none;
+	//@include animation(modal-fadeout 1s);
+
+	&.animating {
+		display: block;
+	}
+
+	&.show {
+		//@include animation(modal-fadein 1s);
+	  opacity: .75;
+	  display: block;
+	}
+}
+
+@include keyframes(modal-fadein) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: .75;
+  }
+}
+
+@include keyframes(modal-fadeout) {
+  0% {
+    opacity: .75;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+

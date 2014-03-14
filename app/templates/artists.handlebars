@@ -1,19 +1,2 @@
-{{#left-nav title='Artists'}}
-
-	{{#each}}
-		{{#unless isNew}}
-			<div class="panel">
-				<p>
-					{{#link-to 'artists.show' this}}{{name}}{{/link-to}}
-				</p>
-			</div>
-		{{/unless}}
-	{{/each}}
-
-	{{#link-to 'artists.new' classNames="button small"}}Add Artist{{/link-to}}
-
-{{/left-nav}}
-
-{{#content-body}}
-	{{outlet}}
-{{/content-body}}
+{{#link-to 'artists.new' classNames='button'}}New Artist{{/link-to}}
+ 
