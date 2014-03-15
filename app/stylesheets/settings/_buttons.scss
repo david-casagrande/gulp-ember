@@ -1,8 +1,130 @@
-$button-font-color: #fff;
-$button-border-width: 5px;
+@import 'vendor/foundation/scss/foundation/components/buttons';
+@import 'vendor/foundation/scss/foundation/functions';
 
-.button, button {
-	border-top:0 !important;
-	border-left:0 !important;
-	border-right:0 !important;
+$button-font-color: #fff;
+$button-border-width: 6px;
+
+//convert-to-rem
+@mixin button-base($style:true, $display:$button-display) {
+  @if $style {
+    border-bottom-style: $button-border-style;
+    border-bottom-width: $button-border-width;
+    cursor: $cursor-pointer-value;
+    font-family: $button-font-family;
+    font-weight: $button-font-weight;
+    line-height: normal;
+    margin: 0 0 $button-margin-bottom;
+    position: relative;
+    text-decoration: none;
+    text-align: $button-font-align;
+  }
+  @if $display { display: $display; }
+}
+
+
+// @MIXIN
+//
+// We use this mixin to add button color styles
+//
+// $bg - Primary color set in settings file. Default: $primary-color.
+// $radius - If true, set to button radius which is $global-radius || explicitly set radius amount in px (ex. $radius:10px). Default: true
+// $disabled - We can set $disabled:true to create a disabled transparent button. Default: false
+@mixin button-style($bg:$primary-color, $radius:false, $disabled:false) {
+
+  // We control which background styles are used,
+  // these can be removed by setting $bg:false
+  @if $bg {
+    // This find the lightness percentage of the background color.
+    $bg-lightness: lightness($bg);
+
+    background-color: $bg;
+    border-color: scale-color($bg, $lightness: $button-function-factor);
+    
+    //&:hover,
+    //&:focus { background-color: scale-color($bg, $lightness: $button-function-factor); }
+
+    &:hover,
+    &:focus { 
+      border-bottom-width: $button-border-width/2;
+      top: $button-border-width/2;
+      margin-bottom: $button-margin-bottom + rem-calc($button-border-width/2);
+    }
+
+    // We control the text color for you based on the background color.
+    @if $bg-lightness > 70% {
+      color: $button-font-color-alt;
+      &:hover,
+      &:focus { color: $button-font-color-alt; }
+    }
+    @else {
+      color: $button-font-color;
+      &:hover,
+      &:focus { color: $button-font-color; }
+    }
+
+  }
+
+  // We can set $disabled:true to create a disabled transparent button.
+  @if $disabled {
+    cursor: $cursor-default-value;
+    opacity: $button-disabled-opacity;
+    @if $experimental {
+      -webkit-box-shadow: none;
+    }
+    box-shadow: none;
+    &:hover,
+    &:focus { background-color: $bg; }
+  }
+
+  // We can control how much button radius us used.
+  @if $radius == true { @include radius($button-radius); }
+  @else if $radius { @include radius($radius); }
+
+}
+
+@include exports("quad-button") {
+  @if $include-html-button-classes {
+
+    // Default styles applied outside of media query
+    button, .quad-button {
+      @include button-base;
+      @include button-size;
+      @include button-style;
+
+      @include single-transition(background-color);
+      @include button-size($padding:$button-med, $full-width:false, $is-input:false);
+
+      &.secondary { @include button-style($bg:$secondary-color); }
+      &.success   { @include button-style($bg:$success-color); }
+      &.alert     { @include button-style($bg:$alert-color); }
+      &.warning   { @include button-style($bg:$warning-color); }
+      &.info      { @include button-style($bg:$info-color); }
+
+      &.large  { @include button-size($padding:$button-lrg); }
+      &.small  { @include button-size($padding:$button-sml); }
+      &.tiny   { @include button-size($padding:$button-tny); }
+      &.expand { @include button-size($padding:null,$full-width:true); }
+
+      &.left-align  { text-align: left; text-indent: rem-calc(12); }
+      &.right-align { text-align: right; padding-right: rem-calc(12); }
+
+      &.radius { @include button-style($bg:false, $radius:true); }
+      &.round  { @include button-style($bg:false, $radius:$button-round); }
+
+      &.disabled, &[disabled] { @include button-style($bg:$primary-color, $disabled:true);
+        &.secondary { @include button-style($bg:$secondary-color, $disabled:true); }
+        &.success { @include button-style($bg:$success-color, $disabled:true); }
+        &.alert { @include button-style($bg:$alert-color, $disabled:true); }
+        &.warning { @include button-style($bg:$warning-color, $disabled:true); }
+        &.info { @include button-style($bg:$info-color, $disabled:true); }
+      }
+    }
+
+    @media #{$medium-up} {
+      button, .quad-button {
+        @include button-base($style:false, $display:inline-block);
+        @include button-size($padding:false, $full-width:false);
+      }
+    }
+  }
 }

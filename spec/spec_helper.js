@@ -1,3 +1,33 @@
+define('spec_helper', ['gulp/app', 'exports'],
+  function(__dependency1__, __exports__) {
+    "use strict";
+    __exports__["default"] = function(){
+      var App = __dependency1__["default"];
+      console.log(App)
+      App.deferReadiness();
+      App.setupForTesting();
+      App.injectTestHelpers();
+      /*
+      App.Router.reopen({
+        location: 'none'
+      });
+
+      App.ApplicationAdapter = DS.FixtureAdapter.extend({
+        simulateRemoteResponse: false
+      });
+
+      Ember.Test.adapter = Ember.Test.Adapter.create({});
+
+      after(function(){
+        Ember.run(function(){
+          App.destroy();
+        });
+      });
+      */
+    }
+});
+
+/*
 App.deferReadiness();
 App.setupForTesting();
 App.injectTestHelpers();
@@ -21,8 +51,5 @@ App.ApplicationAdapter = DS.FixtureAdapter.extend({
 	simulateRemoteResponse: false
 });
 
-after(function(){
-	Ember.run(function(){
-		App.destroy();
-	});
-});
+
+*/

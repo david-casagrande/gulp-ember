@@ -1,12 +1,9 @@
 var gulp    = require('gulp');
-//using a grunt plugin until ported to Gulp
-require('gulp-grunt')(gulp);
 
-var concat     = require('gulp-concat'),
+var concat     = require('gulp-concat-sourcemap'),
 		jshint     = require('gulp-jshint'),
     handlebars = require('gulp-ember-handlebars'),
     nodemon    = require('nodemon'),
-    path       = require('path'),
     preprocess = require('gulp-processhtml'),
     plumber    = require('gulp-plumber'),
     sass       = require('gulp-sass'),
@@ -14,7 +11,7 @@ var concat     = require('gulp-concat'),
     uglify     = require('gulp-uglify');
 
 gulp.task('server', function(){
-  gulp.run('source:transpile', 'source:concat', 'source:css', 'source:compile_templates', 'source:vendor');
+  gulp.run('compile', 'source:css', 'source:compile_templates', 'source:vendor');
 
   var port = gulp.env.port || 8000,
       env  = gulp.env.production ? 'production' : 'development';
@@ -30,7 +27,7 @@ gulp.task('server', function(){
   });
 
   gulp.watch(['app/**/*.js'], function(){
-    gulp.run('source:transpile', 'source:concat');
+    gulp.run('compile');
   });
 
   gulp.watch(['app/**/*.scss'], function(){
@@ -40,35 +37,20 @@ gulp.task('server', function(){
   gulp.watch(['app/**/*.handlebars'], function(){
     gulp.run('source:compile_templates');
   });
-
-
 });
 
-gulp.task('lint', function(){
-  gulp.src('app/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
 
-gulp.task('source', function(){
-  gulp.run('source:transpile', 'source:concat', 'source:css', 'source:minify', 'source:compile_templates', 'source:html');
-});
-
-gulp.task('source:transpile', function(){
-  var stream = gulp.src('./app/**/*.js')
+gulp.task('compile', function(){
+  gulp.src('./app/**/*.js')
     .pipe(plumber())
-    .pipe(transpiler({ 
+    .pipe(transpiler({
       type: 'amd', 
       moduleName: function(moduleName, file){
         return 'gulp/'+file.relative.split('.js')[0];
-      } 
+      }      
     }))
-    .pipe(gulp.dest('./tmp/transpiled'));
-    return stream;
-});
-
-gulp.task('source:concat', ['source:transpile'], function() {
-  gulp.run('grunt-concat_sourcemap');
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('./tmp/assets'))
 });
 
 gulp.task('source:css', function() {
@@ -76,13 +58,6 @@ gulp.task('source:css', function() {
     .pipe(plumber())
     .pipe(sass({ sourceComments: 'map' }))
     .pipe(gulp.dest('./tmp/assets'))
-});
-
-gulp.task('source:minify', ['source:transpile', 'source:concat', 'source:compile_templates'],function(){
-  gulp.src(['tmp/dev/app.js', 'tmp/dev/templates.js'])
-    .pipe(concat('app.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('tmp/prod'));
 });
 
 gulp.task('source:compile_templates', function() {
@@ -119,43 +94,8 @@ gulp.task('source:vendor', function() {
     .pipe(gulp.dest('./tmp/assets/'));
 });
 
-
-gulp.task('test:server', function(){
-  gulp.run('source');
-  gulp.run('test:transpile', 'test:concat');
-
-  var port = gulp.env.port || 8000,
-      env  = gulp.env.production ? 'production' : 'development';
-
-  nodemon({
-    'script': 'server-test.js',
-    'env': {
-      'PORT':     port,
-      'NODE_ENV': env
-    }
-  });
-
-  gulp.watch(['app/**/*.js', 'app/**/*.handlebars', 'app/*.html', 'app/stylesheets/**/*.scss', 'spec/**/*.js', 'spec/index.html'], function(){
-    gulp.run('source');
-    gulp.run('test:transpile', 'test:concat');
-  });
-
-});
-
-gulp.task('test:transpile', function(){
-  var stream = gulp.src('./spec/**/*.js')
-    .pipe(transpiler({ 
-      type: 'amd', 
-      moduleName: function(moduleName, file){
-        return 'gulp/'+file.relative.split('.js')[0];
-      } 
-    }))
-    .pipe(gulp.dest('./tmp/spec/transpiled'));
-  return stream;
-});
-
-gulp.task('test:concat', ['test:transpile'], function(){
-  gulp.src('./tmp/spec/transpiled/**/*.js')
-    .pipe(concat('test.js'))
-    .pipe(gulp.dest('./tmp/spec'));
+gulp.task('lint', function(){
+  gulp.src('app/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
